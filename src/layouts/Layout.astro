@@ -1,0 +1,29 @@
+---
+import '@fontsource-variable/eb-garamond';
+import "../styles/global.css";
+---
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<title>Bible Sort</title>
+		<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+	</head>
+	<body class="bg-neutral-300 min-h-screen px-4">
+		<slot />
+	</body>
+</html>
+
+<style is:global>
+	html,
+	body {
+		font-family: 'EB Garamond Variable', serif;
+		letter-spacing: -0.03em
+	}
+	.container {
+		@apply mx-auto;
+		@apply max-w-[1200px];
+	}
+</style>

@@ -1,0 +1,25 @@
+---
+import biblesortLogo from '@assets/biblesort-logo.svg';
+---
+<header class="flex justify-between items-center py-8">
+    <a href="/"><img src={biblesortLogo.src} alt="Bible Sort Logo" class="w-48" /></a>
+
+    <nav class="flex gap-12">
+        <a class="text-2xl font-medium text-gold" href="/">Inicio</a>
+        <a class="text-2xl" href="/bible">Libros de la Biblia</a>
+        <a class="text-2xl" href="/scoreboard">Tabla de Posiciones</a>
+        <a class="text-2xl" href="/contact">Contacto</a> 
+    </nav>
+    <a class="text-3xl bg-black py-3 pb-4 px-20 text-white" href="/gamemode">Jugar</a>
+</header>
+
+<style>
+ 
+</style>
+
+<script>
+    //if the current page is the home page, change the color of the home link to gold
+    if (window.location.pathname === '/') {
+        document.querySelector('a[href="/"]')?.classList.add('text-gold');
+    }
+</script>

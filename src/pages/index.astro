@@ -1,0 +1,44 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Footer from "@components/partials/Footer.astro";
+import Header from "@components/partials/Header.astro";
+---
+
+<Layout>
+  <div class="container">
+    <Header />
+    <main>
+      <section>
+        <div class="max-w-[1000px] mx-auto text-center mt-14">
+          <h1 class="text-8xl tracking-tighter">
+            Juega a <span class="text-gold">ordenar</span> la Biblia<br />en el
+            menor tiempo posible
+          </h1>
+          <div class="mt-6 flex justify-center">
+            <lottie-player
+              src="/reading-bible-lottie.json"
+              background="transparent"
+              speed="1"
+              class="w-120"
+              loop
+              autoplay></lottie-player>
+          </div>
+          <div class="mt-2 max-w-5xl mx-auto">
+            <p class="text-5xl">
+              Con este juego puedes repasar los libros de la Biblia y así
+              memorizarlos más fácilmente
+            </p>
+          </div>
+
+          <div class="mt-14">
+            <a
+              class="text-3xl bg-black py-3 pb-4 px-20 text-white"
+              href="/gamemode">Jugar</a
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </div>
+</Layout>
