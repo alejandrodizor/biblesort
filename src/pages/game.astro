@@ -1,0 +1,19 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Header from "@components/partials/Header.astro";
+import Footer from "@components/partials/Footer.astro";
+import { BibleOrderGame } from "@components/test";
+---
+<Layout>
+    <div class="container">
+      <Header />
+      <main>
+        <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-5xl tracking-tighter text-balance">Antigo Testamento</h1>
+        <section class="mt-14">
+            <BibleOrderGame client:only />
+        </section>
+      </main>
+      <Footer />
+    </div>
+</Layout>
+          
