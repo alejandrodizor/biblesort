@@ -44,155 +44,141 @@ const booksData = [
 ];
 
 function shuffle(array) {
-  return array.slice().sort(() => Math.random() - 0.5);
-}
-
-export function BibleOrderGame() {
-  const [shuffledBooks, setShuffledBooks] = useState(() => shuffle(booksData));
-  const [gameKey, setGameKey] = useState(0);
-  const [elapsed, setElapsed] = useState(0);
-  const intervalRef = useRef(null);
-
-  // Inicia/reinicia el temporizador al cambiar gameKey
-  useEffect(() => {
-    setElapsed(0);
-    intervalRef.current = setInterval(() => {
-      setElapsed((e) => e + 1);
-    }, 1000);
-    return () => clearInterval(intervalRef.current);
-  }, [gameKey]);
-
-  const {
-    selectedItems: selectedIds,
-    addSelectedItem,
-    removeSelectedItem,
-  } = useMultipleSelection({ initialSelectedItems: [] });
-
-  const isComplete = selectedIds.length === booksData.length;
-  // Detiene el temporizador al completar
-  useEffect(() => {
-    if (isComplete) clearInterval(intervalRef.current);
-  }, [isComplete]);
-
-  const toggleBook = (id) => {
-    const lastId = selectedIds[selectedIds.length - 1];
-    if (selectedIds.includes(id)) {
-      if (id === lastId) removeSelectedItem(id);
-    } else {
-      addSelectedItem(id);
-    }
-  };
-
-  const resetGame = () => {
-    selectedIds.forEach((id) => removeSelectedItem(id));
-    setShuffledBooks(shuffle(booksData));
-    setGameKey((k) => k + 1);
-  };
-
-  const isCorrect =
-    isComplete && selectedIds.every((id, idx) => id === idx + 1);
-  const mistakes = [];
-  if (isComplete && !isCorrect) {
-    selectedIds.forEach((id, idx) => {
-      if (id !== idx + 1) {
-        mistakes.push({
-          pos: idx + 1,
-          expected: booksData[idx].name,
-          actual: booksData.find((b) => b.id === id).name,
-        });
-      }
-    });
+    return array.slice().sort(() => Math.random() - 0.5);
   }
-
-  // Formatea mm:ss
-  const mm = String(Math.floor(elapsed / 60)).padStart(2, "0");
-  const ss = String(elapsed % 60).padStart(2, "0");
-  const timeString = `${mm}:${ss}`;
-
-  return (
-    <div className="">
-      {/* Contador y tiempo */}
-      <div className="mb-4 text-lg">
-        <span className="font-semibold">Seleccionados:</span>{" "}
-        {selectedIds.length} / {booksData.length}
-        <span className="ml-6 font-semibold">Tiempo:</span> {timeString}
-      </div>
-
-      {/* Grid de libros */}
-      <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-2">
-        {shuffledBooks.map((book) => {
-          const idx = selectedIds.indexOf(book.id);
-          const isLast = book.id === selectedIds[selectedIds.length - 1];
-          return (
-            <button
-              key={book.id}
-              onClick={() => toggleBook(book.id)}
-              disabled={selectedIds.includes(book.id) && !isLast}
-              className={`
-                  relative p-3 rounded-md border cursor-pointer
+  
+  export function BibleOrderGame() {
+    const [shuffledBooks, setShuffledBooks] = useState(() => shuffle(booksData));
+    const [gameKey, setGameKey] = useState(0);
+    const [elapsed, setElapsed] = useState(0);
+    const intervalRef = useRef(null);
+  
+    // Inicia/reinicia temporizador
+    useEffect(() => {
+      setElapsed(0);
+      intervalRef.current = setInterval(() => {
+        setElapsed(e => e + 1);
+      }, 1000);
+      return () => clearInterval(intervalRef.current);
+    }, [gameKey]);
+  
+    const {
+      selectedItems: selectedIds,
+      addSelectedItem,
+      removeSelectedItem
+    } = useMultipleSelection({ initialSelectedItems: [] });
+  
+    const isComplete = selectedIds.length === booksData.length;
+  
+    // Detiene el temporizador al completar
+    useEffect(() => {
+      if (isComplete) clearInterval(intervalRef.current);
+    }, [isComplete]);
+  
+    const toggleBook = (id) => {
+      const lastId = selectedIds[selectedIds.length - 1];
+      if (selectedIds.includes(id)) {
+        if (id === lastId) removeSelectedItem(id);
+      } else {
+        addSelectedItem(id);
+      }
+    };
+  
+    const resetGame = () => {
+      selectedIds.forEach(id => removeSelectedItem(id));
+      setShuffledBooks(shuffle(booksData));
+      setGameKey(k => k + 1);
+    };
+  
+    const isCorrect = isComplete && selectedIds.every((id, idx) => id === idx + 1);
+    const mistakes = [];
+    if (isComplete && !isCorrect) {
+      selectedIds.forEach((id, idx) => {
+        if (id !== idx + 1) {
+          mistakes.push({
+            pos: idx + 1,
+            expected: booksData[idx].name,
+            actual: booksData.find(b => b.id === id).name
+          });
+        }
+      });
+    }
+  
+    const mm = String(Math.floor(elapsed / 60)).padStart(2, '0');
+    const ss = String(elapsed % 60).padStart(2, '0');
+    const timeString = `${mm}:${ss}`;
+  
+    return (
+      <div className="">
+        <div className="mb-4 text-lg">
+          <span className="font-semibold">Seleccionados:</span> {selectedIds.length} / {booksData.length}
+          <span className="ml-6 font-semibold">Tiempo:</span> {timeString}
+        </div>
+  
+        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5  xl:grid-cols-7 gap-2">
+          {shuffledBooks.map(book => {
+            const idx = selectedIds.indexOf(book.id);
+            const isLast = book.id === selectedIds[selectedIds.length - 1];
+            return (
+              <button
+                key={book.id}
+                onClick={() => toggleBook(book.id)}
+                disabled={isComplete || (selectedIds.includes(book.id) && !isLast)}
+                className={`
+                  relative p-3 rounded-md border cursor-pointer text-sm md:text-lg lg:text-xl
                   disabled:opacity-50 disabled:cursor-not-allowed
-                  ${
-                    idx !== -1
-                      ? "border-2 border-blue-500 bg-blue-100"
-                      : "border-gray-300 bg-white"
-                  }
+                  ${idx !== -1
+                    ? 'border-2 border-black bg-gray-100'
+                    : 'border-gray-300 bg-white'}
                 `}
-            >
-              {book.name}
-              {idx !== -1 && (
-                <span
-                  className="
+              >
+                {book.name}
+                {idx !== -1 && (
+                  <span className="
                     absolute -top-2 -right-2 w-5 h-5 flex items-center justify-center
-                    text-xs rounded-full bg-blue-500 text-white
-                  "
-                >
-                  {idx + 1}
-                </span>
-              )}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Resultado final */}
-      {isComplete && (
-        <div className="mt-6">
-          <div
-            className={`mb-4 text-lg ${
-              isCorrect ? "text-green-600" : "text-red-600"
-            }`}
-          >
-            {isCorrect
-              ? `¡Felicidades! Ordenaste todo correctamente en ${timeString}.`
-              : `Te equivocaste. Tiempo final: ${timeString}.`}
-          </div>
-
-          {!isCorrect && (
-            <div className="mb-4">
-              <p className="mb-2">Revisa estas posiciones:</p>
-              <ul className="list-disc list-inside">
-                {mistakes.map((m) => (
-                  <li key={m.pos}>
-                    Posición {m.pos}: seleccionaste "{m.actual}", debería ser "
-                    {m.expected}"
-                  </li>
-                ))}
-              </ul>
+                    text-xs rounded-full bg-black text-white
+                  ">
+                    {idx + 1}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+  
+        {isComplete && (
+          <div className="mt-6">
+            <div className={`mb-4 text-lg ${isCorrect ? 'text-green-600' : 'text-red-600'}`}>
+              {isCorrect
+                ? `¡Felicidades! Ordenaste todo correctamente en ${timeString}.`
+                : `Te equivocaste. Tiempo final: ${timeString}.`}
             </div>
-          )}
-
-          <button
-            onClick={resetGame}
-            className="
+  
+            {!isCorrect && (
+              <div className="mb-4">
+                <p className="mb-2">Revisa estas posiciones:</p>
+                <ul className="list-disc list-inside">
+                  {mistakes.map(m => (
+                    <li key={m.pos}>
+                      Posición {m.pos}: seleccionaste "{m.actual}", debería ser "{m.expected}"
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+  
+            <button
+              onClick={resetGame}
+              className="
                 px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300
               "
-          >
-            Reiniciar
-          </button>
-        </div>
-      )}
-    </div>
-  );
-}
-
-export default BibleOrderGame;
+            >
+              Reiniciar
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  }
+  
+  export default BibleOrderGame;
