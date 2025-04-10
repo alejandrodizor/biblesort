@@ -112,7 +112,7 @@ export function BibleOrderGame() {
   const timeString = `${mm}:${ss}`;
 
   return (
-    <div className="p-4">
+    <div className="">
       {/* Contador y tiempo */}
       <div className="mb-4 flex items-center justify-between text-lg">
         <div>
