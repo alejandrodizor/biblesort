@@ -125,7 +125,7 @@ function shuffle(array) {
                 onClick={() => toggleBook(book.id)}
                 disabled={isComplete || (selectedIds.includes(book.id) && !isLast)}
                 className={`
-                  relative p-3 rounded-md border cursor-pointer text-sm md:text-lg lg:text-xl
+                  relative  py-3 px-1 rounded-md border cursor-pointer text-md md:text-lg lg:text-xl
                   disabled:opacity-50 disabled:cursor-not-allowed
                   ${idx !== -1
                     ? 'border-2 border-black bg-gray-100'
