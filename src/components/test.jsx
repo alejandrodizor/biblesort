@@ -43,12 +43,13 @@ const booksData = [
   { id: 39, name: "Malaquías" },
 ];
 
-function shuffle(array) {
-  return array.slice().sort(() => Math.random() - 0.5);
-}
+// Preparamos el arreglo ordenado alfabéticamente por `name`
+const sortedBooks = [...booksData].sort((a, b) =>
+  a.name.localeCompare(b.name)
+); // usa localeCompare para orden correcto :contentReference[oaicite:0]{index=0}
 
 export function BibleOrderGame() {
-  const [shuffledBooks, setShuffledBooks] = useState(() => shuffle(booksData));
+  const [displayBooks, setDisplayBooks] = useState(sortedBooks);
   const [gameKey, setGameKey] = useState(0);
   const [elapsed, setElapsed] = useState(0);
   const intervalRef = useRef(null);
@@ -85,8 +86,9 @@ export function BibleOrderGame() {
   };
 
   const resetGame = () => {
+    // Limpia selección y vuelve al orden alfabético
     selectedIds.forEach((id) => removeSelectedItem(id));
-    setShuffledBooks(shuffle(booksData));
+    setDisplayBooks(sortedBooks);
     setGameKey((k) => k + 1);
   };
 
@@ -110,46 +112,42 @@ export function BibleOrderGame() {
   const timeString = `${mm}:${ss}`;
 
   return (
-    <div className="">
-      <div className="mb-4 flex items-center justify-between gap-2 text-lg md:text-xl xl:text-2xl">
+    <div className="p-4">
+      {/* Contador y tiempo */}
+      <div className="mb-4 flex items-center justify-between text-lg">
         <div>
           <span className="font-semibold">Seleccionados:</span>{" "}
           {selectedIds.length} / {booksData.length}
         </div>
         <div>
-          <span className="ml-6 font-semibold">Tiempo:</span> {timeString}
+          <span className="font-semibold">Tiempo:</span> {timeString}
         </div>
       </div>
 
-      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5  xl:grid-cols-7 gap-2 md:gap-3 xl:gap-4">
-        {shuffledBooks.map((book) => {
+      {/* Grid en orden alfabético */}
+      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-2">
+        {displayBooks.map((book) => {
           const idx = selectedIds.indexOf(book.id);
           const isLast = book.id === selectedIds[selectedIds.length - 1];
           return (
             <button
               key={book.id}
               onClick={() => toggleBook(book.id)}
-              disabled={
-                isComplete || (selectedIds.includes(book.id) && !isLast)
-              }
+              disabled={isComplete || (selectedIds.includes(book.id) && !isLast)}
               className={`
-                  relative  py-3 px-1 rounded-md border cursor-pointer text-lg lg:text-xl
-                  disabled:opacity-50 disabled:cursor-not-allowed
-                  ${
-                    idx !== -1
-                      ? "border-2 border-black bg-gray-100"
-                      : "border-gray-300 bg-white"
-                  }
-                `}
+                relative py-3 px-1 rounded-md border text-lg cursor-pointer
+                disabled:opacity-50 disabled:cursor-not-allowed
+                ${idx !== -1
+                  ? "border-2 border-black bg-gray-100"
+                  : "border-gray-300 bg-white"}
+              `}
             >
               {book.name}
               {idx !== -1 && (
-                <span
-                  className="
-                    absolute -top-2 -right-2 w-5 h-5 flex items-center justify-center
-                    text-xs rounded-full bg-black text-white
-                  "
-                >
+                <span className="
+                  absolute -top-2 -right-2 w-5 h-5 flex items-center justify-center
+                  text-xs rounded-full bg-black text-white
+                ">
                   {idx + 1}
                 </span>
               )}
@@ -158,13 +156,10 @@ export function BibleOrderGame() {
         })}
       </div>
 
+      {/* Resultado final */}
       {isComplete && (
         <div className="mt-6">
-          <div
-            className={`mb-4 text-lg  ${
-              isCorrect ? "text-green-600" : "text-red-600"
-            }`}
-          >
+          <div className={`mb-4 text-lg ${isCorrect ? "text-green-600" : "text-red-600"}`}>
             {isCorrect
               ? `¡Felicidades! Ordenaste todo correctamente en ${timeString}.`
               : `Te equivocaste. Tiempo final: ${timeString}.`}
@@ -176,8 +171,7 @@ export function BibleOrderGame() {
               <ul className="list-disc list-inside">
                 {mistakes.map((m) => (
                   <li key={m.pos}>
-                    Posición {m.pos}: seleccionaste "{m.actual}", debería ser "
-                    {m.expected}"
+                    Posición {m.pos}: seleccionaste "{m.actual}", debería ser "{m.expected}"
                   </li>
                 ))}
               </ul>
@@ -186,9 +180,7 @@ export function BibleOrderGame() {
 
           <button
             onClick={resetGame}
-            className="
-                px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300
-              "
+            className="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300"
           >
             Reiniciar
           </button>
@@ -197,5 +189,3 @@ export function BibleOrderGame() {
     </div>
   );
 }
-
-export default BibleOrderGame;
