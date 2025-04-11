@@ -363,7 +363,7 @@ export function BibleOrderGame() {
           </div>
 
           {/* Modal final */}
-          {!isComplete && (
+          {isComplete && (
             <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur z-40">
               <div className="bg-white rounded-lg p-8 text-center shadow-lg w-80 mx-4">
                 <lottie-player
