@@ -266,6 +266,9 @@ export function BibleOrderGame() {
           )}
         </>
       )}
+          <div class="flex justify-center mt-10 lg:mt-14">
+            <button class="text-xl md:text-2xl bg-black pt-1 md:py-3 pb-2 md:pb-4 px-10 md:px-16 text-white" onClick={resetGame}>Reiniciar Juego</button>
+        </div>
     </div>
   );
 }
