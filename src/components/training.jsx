@@ -253,22 +253,12 @@ export function BibleOrderGame() {
                   <br />
                   <span className="font-medium text-3xl">{mistakeCount}</span>
                 </p>
-                <button
-                  onClick={resetGame}
-                  className="
-                      mt-2 text-xl md:text-2xl bg-black pt-1 md:py-3 pb-2 md:pb-4 px-10 md:px-16 text-white
-                    "
-                >
-                  Reiniciar Juego
-                </button>
+                <a className="text-xl md:text-2xl bg-black pt-1 md:py-3 pb-2 md:pb-4 px-10 md:px-16 text-white" href="/game">Reiniciar Juego</a>
               </div>
             </div>
           )}
         </>
       )}
-          <div class="flex justify-center mt-10 lg:mt-14">
-            <button class="text-xl md:text-2xl bg-black pt-1 md:py-3 pb-2 md:pb-4 px-10 md:px-16 text-white" onClick={resetGame}>Reiniciar Juego</button>
-        </div>
     </div>
   );
 }
