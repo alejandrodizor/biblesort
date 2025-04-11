@@ -2,13 +2,18 @@
 import Layout from "@layouts/Layout.astro";
 import Footer from "@components/partials/Footer.astro";
 import Header from "@components/partials/Header.astro";
+import { Scoreboard } from "@components/scoreboard";
 ---
 <Layout>
   <div class="container">
     <Header />
     <main>
       <section>
-        <div class="max-w-[1000px] mx-auto text-center mt-14">
+        <div class="max-w-[1000px] mx-auto text-center md:mt-14">
+          <div class="md:mt-0 md:mb-0 mb-6 justify-center flex flex-col md:hidden mt-6 gap-2">
+            <a class="text-xl md:text-2xl bg-black pt-1 md:py-3 pb-2 md:pb-4 px-10 md:px-20 text-white" href="/bible">Estudiar Libros</a>
+            <a class="text-xl md:text-2xl bg-black pt-1 md:py-3 pb-2 md:pb-4 px-10 md:px-20 text-white" href="/scoreboard">Ver Tabla de Posiciones</a>
+          </div>
           <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tighter text-balance">
             Juega a <span class="text-gold">ordenar</span> la Biblia en el menor tiempo posible
           </h1>
@@ -30,11 +35,29 @@ import Header from "@components/partials/Header.astro";
 
           <div class="mt-14">
             <a
-              class="text-2xl xl:text-3xl bg-black py-3 pb-4 xl:py-4 xl:pb-6 px-16 xl:px-20 text-white"
+              class="text-2xl xl:text-3xl bg-black py-3 pb-4 xl:py-4 xl:pb-6 px-16 xl:px-20 text-white inline-block"
               href="/game">Jugar</a
             >
           </div>
         </div>
+      </section>
+      <section class="md:mt-14 lg:mt-40 md:border-t md:border-black/30">
+      
+        <div class="mt-10 flex justify-center">
+          <lottie-player
+            src="/tables.json"
+            background="transparent"
+            speed="1"
+            class="w-56 md:w-80 lg:w-100"
+            loop
+            autoplay></lottie-player>
+        </div>
+        <h2 class="text-5xl sm:text-6xl md:text-7xl lg:text-7xl tracking-tighter text-balance text-center">
+          Tabla de Posiciones
+        </h2>
+
+        <Scoreboard />
+
       </section>
     </main>
     <Footer />
