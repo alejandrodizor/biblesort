@@ -240,20 +240,28 @@ export function BibleOrderGame() {
                     autoplay
                   ></lottie-player>
                 </div>
+
                 <h2 className="text-3xl xl:text-4xl font-semibold mb-4">
-                  ¡Buen trabajo!
+                  {mistakeCount > 0 ? "¡Buen trabajo!" : "¡Perfecto!"}
                 </h2>
                 <p className="mb-2 text-xl">
                   Completaste el juego en
                   <br />
                   <span className="font-medium text-3xl">{timeString}</span>.
                 </p>
-                <p className="mb-4 text-xl">
-                  Equivocaciones
-                  <br />
-                  <span className="font-medium text-3xl">{mistakeCount}</span>
-                </p>
-                <a className="text-xl md:text-2xl bg-black pt-1 md:py-3 pb-2 md:pb-4 px-10 md:px-16 text-white" href="/game">Reiniciar Juego</a>
+                {mistakeCount > 0 && (
+                  <p className="mb-4 text-xl">
+                    Equivocaciones
+                    <br />
+                    <span className="font-medium text-3xl">{mistakeCount}</span>
+                  </p>
+                )}
+                <a
+                  className="block text-xl md:text-2xl bg-black pt-1 md:py-3 pb-2 md:pb-4 px-10 md:px-16 text-white mt-4 sm:mt-6 md:mt-8 lg:mt-10"
+                  href="/game"
+                >
+                  Reiniciar Juego
+                </a>
               </div>
             </div>
           )}
