@@ -8,10 +8,22 @@ import { BibleOrderGame } from "@components/test";
     <div class="container">
       <Header />
       <main>
-        <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-5xl tracking-tighter text-balance">Antiguo Testamento</h1>
-        <section class="mt-14">
+        <div class="mt-2 md:mt-6 flex justify-center">
+            <lottie-player
+              src="/reading-bible-closed.json"
+              background="transparent"
+              speed="1"
+              class="w-16 md:w-20 lg:w-24"
+              loop
+              autoplay></lottie-player>
+          </div>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl tracking-tighter text-balance text-center">Antiguo Testamento</h1>
+        <section class="mt-4 sm:mt-6 md:mt-8 lg:mt-10 xl:mt-14">
             <BibleOrderGame client:only />
         </section>
+        <div class="flex justify-center mt-10 lg:mt-14">
+            <a class="text-xl md:text-2xl bg-black pt-1 md:py-3 pb-2 md:pb-4 px-10 md:px-16 text-white" href="/game">Reiniciar Juego</a>
+        </div>
       </main>
       <Footer />
     </div>
