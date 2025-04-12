@@ -2,32 +2,44 @@
 import Layout from "@layouts/Layout.astro";
 import Footer from "@components/partials/Footer.astro";
 import Header from "@components/partials/Header.astro";
-import { Scoreboard } from "@components/scoreboard";
+import { ScoreboardComponent } from "@components/ScoreboardComponent";
 ---
+
 <Layout>
   <div class="container">
     <Header />
     <main>
       <section>
         <div class="max-w-[1000px] mx-auto text-center md:mt-14">
-          <div class="md:mt-0 md:mb-0 mb-6 justify-center flex flex-col md:hidden mt-6 gap-2">
-            <a class="text-xl md:text-2xl bg-black pt-1 md:py-3 pb-2 md:pb-4 px-10 md:px-20 text-white" href="/bible">Estudiar Libros</a>
-            <a class="text-xl md:text-2xl bg-black pt-1 md:py-3 pb-2 md:pb-4 px-10 md:px-20 text-white" href="/scoreboard">Ver Tabla de Posiciones</a>
+          <div
+            class="md:mt-0 md:mb-0 mb-6 justify-center flex flex-col md:hidden mt-6 gap-2"
+          >
+            <a
+              class="text-xl md:text-2xl bg-black pt-1 md:py-3 pb-2 md:pb-4 px-10 md:px-20 text-white"
+              href="/bible">Estudiar Libros</a
+            >
+            <a
+              class="text-xl md:text-2xl bg-black pt-1 md:py-3 pb-2 md:pb-4 px-10 md:px-20 text-white"
+              href="/scoreboard">Ver Tabla de Posiciones</a
+            >
           </div>
-          <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tighter text-balance">
-            Juega a <span class="text-gold">ordenar</span> la Biblia en el menor tiempo posible
+          <h1
+            class="text-5xl sm:text-6xl lg:text-7xl tracking-tighter text-balance"
+          >
+            Juega a <span class="text-gold">ordenar</span> la Biblia en el menor
+            tiempo posible
           </h1>
           <div class="mt-6 flex justify-center">
             <lottie-player
               src="/reading-bible-lottie.json"
               background="transparent"
               speed="1"
-              class="w-64 md:w-96 lg:w-120"
+              class="w-64 md:w-80 xl:w-96"
               loop
               autoplay></lottie-player>
           </div>
-          <div class="mt-2 max-w-[930px] mx-auto">
-            <p class="text-3xl md:text-4xl lg:text-5xl ">
+          <div class="mt-2 max-w-[680px] mx-auto">
+            <p class="text-3xl md:text-3xl lg:text-4xl">
               Con este juego puedes repasar los libros de la Biblia y así
               memorizarlos más fácilmente
             </p>
@@ -35,29 +47,36 @@ import { Scoreboard } from "@components/scoreboard";
 
           <div class="mt-14">
             <a
-              class="text-2xl xl:text-3xl bg-black py-3 pb-4 xl:py-4 xl:pb-6 px-16 xl:px-20 text-white inline-block"
-              href="/game">Jugar</a
+              class="text-2xl xl:text-3xl bg-black py-3 pb-4 xl:py-3 xl:pb-4 px-16 xl:px-16 text-white inline-block"
+              href="/testament">Jugar</a
             >
           </div>
         </div>
       </section>
-      <section class="md:mt-14 lg:mt-40 md:border-t md:border-black/30">
-      
-        <div class="mt-10 flex justify-center">
+      <hr class="border-black/30 md:mt-14 lg:mt-20 mb-5" />
+      <section>
+        <div class="flex justify-center">
           <lottie-player
             src="/tables.json"
             background="transparent"
             speed="1"
-            class="w-56 md:w-80 lg:w-100"
+            class="w-48 md:w-56 lg:w-64"
             loop
             autoplay></lottie-player>
         </div>
-        <h2 class="text-5xl sm:text-6xl md:text-7xl lg:text-7xl tracking-tighter text-balance text-center">
+        <h2
+          class="text-5xl sm:text-6xl md:text-7xl lg:text-7xl tracking-tighter text-balance text-center"
+        >
           Tabla de Posiciones
         </h2>
 
-        <Scoreboard client:only />
-
+        <p class="text-xl md:text-2xl lg:text-3xl text-center mt-4">
+          Los mejores tiempos de entre todos los jugadores
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+          <ScoreboardComponent testament="ot" client:only />
+          <ScoreboardComponent testament="nt" client:only />
+        </div>
       </section>
     </main>
     <Footer />

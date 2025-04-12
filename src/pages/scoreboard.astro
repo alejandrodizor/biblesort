@@ -1,0 +1,38 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Footer from "@components/partials/Footer.astro";
+import Header from "@components/partials/Header.astro";
+import { ScoreboardComponent } from "@components/ScoreboardComponent";
+---
+
+<Layout>
+  <div class="container">
+    <Header />
+    <main>
+        <div class="flex justify-center">
+            <lottie-player
+              src="/tables.json"
+              background="transparent"
+              speed="1"
+              class="w-48 md:w-56 lg:w-64"
+              loop
+              autoplay
+            ></lottie-player>
+          </div>
+          <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-7xl tracking-tighter text-balance text-center">
+            Tabla de Posiciones
+          </h1>
+    
+          <p class="text-xl md:text-2xl lg:text-3xl text-center mt-4">
+            Los mejores tiempos de entre todos los jugadores
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+
+              
+              <ScoreboardComponent testament="ot" client:only />
+              <ScoreboardComponent testament="nt" client:only />
+            </div>
+    </main>
+    <Footer />
+  </div>
+</Layout>

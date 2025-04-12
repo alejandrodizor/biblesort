@@ -1,12 +1,12 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import Header from "@components/partials/Header.astro";
 import Footer from "@components/partials/Footer.astro";
 import { BibleOrderGame } from "@components/training";
+import HeaderOT from "@components/partials/HeaderOT.astro";
 ---
 <Layout>
     <div class="container">
-      <Header />
+      <HeaderOT />
       <main>
         <div class="mt-2 md:mt-6 flex justify-center">
             <lottie-player
@@ -19,11 +19,14 @@ import { BibleOrderGame } from "@components/training";
           </div>
         <h1 class="text-4xl md:text-5xl lg:text-6xl tracking-tighter text-balance text-center">Antiguo Testamento</h1>
         <section class="mt-4 sm:mt-6 md:mt-8 lg:mt-10 xl:mt-14">
-            <BibleOrderGame client:load/>
+            <BibleOrderGame testament="ot" client:load/>
         </section>
         <div class="flex justify-center mt-10 lg:mt-14">
-            <a class="text-xl md:text-2xl bg-black hover:opacity-80 duration-200 pt-1 md:py-3 pb-2 md:pb-4 px-10 md:px-14 text-white" href="/game">Reiniciar Juego</a>
+            <a class="text-xl md:text-2xl bg-black hover:opacity-80 duration-200 pt-1 md:py-3 pb-2 md:pb-4 px-10 md:px-14 text-white" href="/game-ot">Reiniciar Juego</a>
         </div>
+        <div class="flex justify-center mt-4 lg:mt-6">
+          <a class="text-xl md:text-2xl border-2 border-black bg-green-500 hover:opacity-80 duration-200 pt-1 md:py-3 pb-2 md:pb-4 px-10 md:px-14 text-white" href="/testament">Volver</a>
+      </div>
       </main>
       <Footer />
     </div>

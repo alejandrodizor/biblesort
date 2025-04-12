@@ -1,52 +1,14 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useMultipleSelection } from "downshift";
+import booksJson from "../assets/books.json";
 
-const booksData = [
-  { id: 1, name: "Génesis" },
-  { id: 2, name: "Éxodo" },
-  { id: 3, name: "Levítico" },
-  { id: 4, name: "Números" },
-  { id: 5, name: "Deuteronomio" },
-  { id: 6, name: "Josué" },
-  { id: 7, name: "Jueces" },
-  { id: 8, name: "Rut" },
-  { id: 9, name: "1 Samuel" },
-  { id: 10, name: "2 Samuel" },
-  { id: 11, name: "1 Reyes" },
-  { id: 12, name: "2 Reyes" },
-  { id: 13, name: "1 Crónicas" },
-  { id: 14, name: "2 Crónicas" },
-  { id: 15, name: "Esdras" },
-  { id: 16, name: "Nehemías" },
-  { id: 17, name: "Ester" },
-  { id: 18, name: "Job" },
-  { id: 19, name: "Salmos" },
-  { id: 20, name: "Proverbios" },
-  { id: 21, name: "Eclesiastés" },
-  { id: 22, name: "Cantares" },
-  { id: 23, name: "Isaías" },
-  { id: 24, name: "Jeremías" },
-  { id: 25, name: "Lamentaciones" },
-  { id: 26, name: "Ezequiel" },
-  { id: 27, name: "Daniel" },
-  { id: 28, name: "Oseas" },
-  { id: 29, name: "Joel" },
-  { id: 30, name: "Amós" },
-  { id: 31, name: "Abdías" },
-  { id: 32, name: "Jonás" },
-  { id: 33, name: "Miqueas" },
-  { id: 34, name: "Nahúm" },
-  { id: 35, name: "Habacuc" },
-  { id: 36, name: "Sofonías" },
-  { id: 37, name: "Hageo" },
-  { id: 38, name: "Zacarías" },
-  { id: 39, name: "Malaquías" },
-];
+export function BibleOrderGame({ testament = "ot" }) {
+  // Carga los libros según el parámetro "testament"
+  const booksData = booksJson[testament] || booksJson["ot"];
+  const sortedBooks = [...booksData].sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
 
-// Orden alfabético
-const sortedBooks = [...booksData].sort((a, b) => a.name.localeCompare(b.name));
-
-export function BibleOrderGame() {
   const [displayBooks, setDisplayBooks] = useState(sortedBooks);
   const [gameKey, setGameKey] = useState(0);
   const [elapsed, setElapsed] = useState(0);
@@ -118,7 +80,7 @@ export function BibleOrderGame() {
   useEffect(() => {
     if (!isComplete) return;
     const composite = mistakeCount * COMPOSITE_FACTOR + elapsed;
-    fetch(`/api/leaderboard?testament=ot`)
+    fetch(`/api/leaderboard?testament=${testament}`)
       .then((res) => res.json())
       .then((data) => {
         const comps = data.map((e) => ({
@@ -172,12 +134,12 @@ export function BibleOrderGame() {
   // Función para enviar score a la API
   const saveScore = async (id, name) => {
     const form = new FormData();
-    form.append("testament", "ot");
+    form.append("testament", testament);
     form.append("id", id);
     form.append("name", name);
     form.append("time", elapsed);
     form.append("mistakes", mistakeCount);
-    await fetch(`/api/leaderboard?testament=ot`, {
+    await fetch(`/api/leaderboard?testament=${testament}`, {
       method: "POST",
       body: form,
     });
@@ -211,7 +173,9 @@ export function BibleOrderGame() {
               loop
               autoplay
             />
-            <h2 className="text-4xl font-semibold mb-2">Antiguo Testamento</h2>
+            <h2 className="text-4xl font-semibold mb-2">
+              {testament === "nt" ? "Nuevo Testamento" : "Antiguo Testamento"}
+            </h2>
             <h3 className="text-2xl font-semibold mb-4 text-gold">Prepárate</h3>
             <p className="text-6xl font-bold">{countdown}</p>
           </div>
@@ -270,38 +234,7 @@ export function BibleOrderGame() {
 
           <div className="block sm:hidden">
             <div className="text-xl mb-4 flex justify-center">
-            <div className="flex items-center justify-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                x="0px"
-                y="0px"
-                width="24"
-                height="24"
-                viewBox="0 0 50 50"
-              >
-                <path d="M 7 2 C 4.199219 2 2 4.199219 2 7 L 2 34 C 2 36.800781 4.199219 39 7 39 L 34 39 C 36.800781 39 39 36.800781 39 34 L 39 7 C 39 6.5 38.914063 6 38.8125 5.5 L 19.09375 27.40625 L 9.40625 18.6875 L 10.6875 17.1875 L 19 24.5 L 37.6875 3.6875 C 36.789063 2.6875 35.5 2 34 2 Z M 41 11 L 41 35 C 41 38.300781 38.300781 41 35 41 L 11 41 L 11 43 C 11 45.800781 13.199219 48 16 48 L 43 48 C 45.800781 48 48 45.800781 48 43 L 48 16 C 48 13.199219 45.800781 11 43 11 Z"></path>
-              </svg>
-              <span className="font-semibold">Seleccionados:</span>
-              {selectedIds.length} / {booksData.length}
-            </div>
-            </div>
-            <div className="mb-4 flex flex-row justify-between text-xl gap-1 xl:gap-2">
-            <div className="flex items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                x="0px"
-                y="0px"
-                width="24"
-                height="24"
-                viewBox="0 0 50 50"
-              >
-                <path d="M25,2C12.319,2,2,12.319,2,25s10.319,23,23,23s23-10.319,23-23S37.681,2,25,2z M33.71,32.29c0.39,0.39,0.39,1.03,0,1.42	C33.51,33.9,33.26,34,33,34s-0.51-0.1-0.71-0.29L25,26.42l-7.29,7.29C17.51,33.9,17.26,34,17,34s-0.51-0.1-0.71-0.29	c-0.39-0.39-0.39-1.03,0-1.42L23.58,25l-7.29-7.29c-0.39-0.39-0.39-1.03,0-1.42c0.39-0.39,1.03-0.39,1.42,0L25,23.58l7.29-7.29	c0.39-0.39,1.03-0.39,1.42,0c0.39,0.39,0.39,1.03,0,1.42L26.42,25L33.71,32.29z"></path>
-              </svg>
-              <span className="font-semibold">Fallos:</span>{" "}
-              {mistakeCount}
-            </div>
-              <div className="flex items-center gap-2">
-              <span>
+              <div className="flex items-center justify-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   x="0px"
@@ -310,12 +243,43 @@ export function BibleOrderGame() {
                   height="24"
                   viewBox="0 0 50 50"
                 >
-                  <path d="M 21 2 L 21 5 L 23 5 L 23 6.0976562 C 12.355663 7.1082736 4 16.095631 4 27 C 4 38.579 13.421 48 25 48 C 36.579 48 46 38.579 46 27 C 46 16.095631 37.644337 7.1082736 27 6.0976562 L 27 5 L 29 5 L 29 2 L 21 2 z M 40.236328 5.1464844 L 38.230469 7.1523438 L 42.845703 11.767578 L 44.851562 9.7617188 L 40.236328 5.1464844 z M 15 16 C 15.25575 16 15.511531 16.097469 15.707031 16.292969 L 24.488281 25.074219 C 24.653281 25.031219 24.822 25 25 25 C 26.105 25 27 25.895 27 27 C 27 27.178 26.968781 27.346719 26.925781 27.511719 L 28.707031 29.292969 C 29.098031 29.683969 29.098031 30.316031 28.707031 30.707031 C 28.512031 30.902031 28.256 31 28 31 C 27.744 31 27.487969 30.902031 27.292969 30.707031 L 25.511719 28.925781 C 25.346719 28.968781 25.178 29 25 29 C 23.895 29 23 28.105 23 27 C 23 26.822 23.031219 26.653281 23.074219 26.488281 L 14.292969 17.707031 C 13.901969 17.316031 13.901969 16.683969 14.292969 16.292969 C 14.488469 16.097469 14.74425 16 15 16 z"></path>
+                  <path d="M 7 2 C 4.199219 2 2 4.199219 2 7 L 2 34 C 2 36.800781 4.199219 39 7 39 L 34 39 C 36.800781 39 39 36.800781 39 34 L 39 7 C 39 6.5 38.914063 6 38.8125 5.5 L 19.09375 27.40625 L 9.40625 18.6875 L 10.6875 17.1875 L 19 24.5 L 37.6875 3.6875 C 36.789063 2.6875 35.5 2 34 2 Z M 41 11 L 41 35 C 41 38.300781 38.300781 41 35 41 L 11 41 L 11 43 C 11 45.800781 13.199219 48 16 48 L 43 48 C 45.800781 48 48 45.800781 48 43 L 48 16 C 48 13.199219 45.800781 11 43 11 Z"></path>
                 </svg>
-              </span>
-              <span className="font-semibold">Tiempo:</span>{" "}
-              {timeString}
+                <span className="font-semibold">Seleccionados:</span>
+                {selectedIds.length} / {booksData.length}
+              </div>
             </div>
+            <div className="mb-4 flex flex-row justify-between text-xl gap-1 xl:gap-2">
+              <div className="flex items-center gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  x="0px"
+                  y="0px"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 50 50"
+                >
+                  <path d="M25,2C12.319,2,2,12.319,2,25s10.319,23,23,23s23-10.319,23-23S37.681,2,25,2z M33.71,32.29c0.39,0.39,0.39,1.03,0,1.42	C33.51,33.9,33.26,34,33,34s-0.51-0.1-0.71-0.29L25,26.42l-7.29,7.29C17.51,33.9,17.26,34,17,34s-0.51-0.1-0.71-0.29	c-0.39-0.39-0.39-1.03,0-1.42L23.58,25l-7.29-7.29c-0.39-0.39-0.39-1.03,0-1.42c0.39-0.39,1.03-0.39,1.42,0L25,23.58l7.29-7.29	c0.39-0.39,1.03-0.39,1.42,0c0.39,0.39,0.39,1.03,0,1.42L26.42,25L33.71,32.29z"></path>
+                </svg>
+                <span className="font-semibold">Fallos:</span>{" "}
+                {mistakeCount}
+              </div>
+              <div className="flex items-center gap-2">
+                <span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    x="0px"
+                    y="0px"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 50 50"
+                  >
+                    <path d="M 21 2 L 21 5 L 23 5 L 23 6.0976562 C 12.355663 7.1082736 4 16.095631 4 27 C 4 38.579 13.421 48 25 48 C 36.579 48 46 38.579 46 27 C 46 16.095631 37.644337 7.1082736 27 6.0976562 L 27 5 L 29 5 L 29 2 L 21 2 z M 40.236328 5.1464844 L 38.230469 7.1523438 L 42.845703 11.767578 L 44.851562 9.7617188 L 40.236328 5.1464844 z M 15 16 C 15.25575 16 15.511531 16.097469 15.707031 16.292969 L 24.488281 25.074219 C 24.653281 25.031219 24.822 25 25 25 C 26.105 25 27 25.895 27 27 C 27 27.178 26.968781 27.346719 26.925781 27.511719 L 28.707031 29.292969 C 29.098031 29.683969 29.098031 30.316031 28.707031 30.707031 C 28.512031 30.902031 28.256 31 28 31 C 27.744 31 27.487969 30.902031 27.292969 30.707031 L 25.511719 28.925781 C 25.346719 28.968781 25.178 29 25 29 C 23.895 29 23 28.105 23 27 C 23 26.822 23.031219 26.653281 23.074219 26.488281 L 14.292969 17.707031 C 13.901969 17.316031 13.901969 16.683969 14.292969 16.292969 C 14.488469 16.097469 14.74425 16 15 16 z"></path>
+                  </svg>
+                </span>
+                <span className="font-semibold">Tiempo:</span>{" "}
+                {timeString}
+              </div>
             </div>
           </div>
 
@@ -441,9 +405,96 @@ export function BibleOrderGame() {
                       href="/scoreboard"
                       className="mt-2 px-2 flex items-center gap-2 justify-center text-xl border-2 border-black w-full py-2 rounded-md bg-green-600 text-white hover:opacity-80 duration-200 focus:outline-none focus:ring-2 focus:ring-black"
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">
-<path fill="none" stroke="#c48c00" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="M32,28	c2.271-3.243,11-4.572,11-10c0-2.209-1.791-4-4-4s-4,1.791-4,4"></path><path fill="none" stroke="#c48c00" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" d="M16,28	c-2.271-3.243-11-4.572-11-10c0-2.209,1.791-4,4-4s4,1.791,4,4"></path><path fill="#edbe00" d="M31.1,39.8l-1.5-2C29.222,37.296,28.63,37,28,37h-8c-0.63,0-1.222,0.296-1.6,0.8l-1.5,2	c-0.567,0.755-1.456,1.2-2.4,1.2h19C32.556,41,31.667,40.555,31.1,39.8z"></path><path fill="#edbe00" d="M7,7c6,8,1,23,13,28h8c12-4,7-20,13-28H7z"></path><linearGradient id="50wh1SoqJZDjVsT9NX8XQa_kPENNmiEJv3b_gr1" x1="13" x2="35" y1="42" y2="42" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fede00"></stop><stop offset="1" stop-color="#ffd000"></stop></linearGradient><path fill="url(#50wh1SoqJZDjVsT9NX8XQa_kPENNmiEJv3b_gr1)" d="M34,41H14c-0.552,0-1,0.448-1,1c0,0.552,0.448,1,1,1h20c0.552,0,1-0.448,1-1	C35,41.448,34.552,41,34,41z"></path><linearGradient id="50wh1SoqJZDjVsT9NX8XQb_kPENNmiEJv3b_gr2" x1="5" x2="43" y1="6" y2="6" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fede00"></stop><stop offset="1" stop-color="#ffd000"></stop></linearGradient><path fill="url(#50wh1SoqJZDjVsT9NX8XQb_kPENNmiEJv3b_gr2)" d="M42,5H6C5.448,5,5,5.448,5,6c0,0.552,0.448,1,1,1h36c0.552,0,1-0.448,1-1	C43,5.448,42.552,5,42,5z"></path><rect width="8" height="2" x="20" y="35" fill="#e3a600"></rect><radialGradient id="50wh1SoqJZDjVsT9NX8XQc_kPENNmiEJv3b_gr3" cx="24" cy="19" r="7" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#1c1600"></stop><stop offset=".07" stop-color="#3b2f00"></stop><stop offset=".19" stop-color="#6a5500"></stop><stop offset=".313" stop-color="#927500"></stop><stop offset=".439" stop-color="#b39000"></stop><stop offset=".568" stop-color="#cda400"></stop><stop offset=".701" stop-color="#dfb300"></stop><stop offset=".841" stop-color="#eabb00"></stop><stop offset="1" stop-color="#edbe00"></stop></radialGradient><circle cx="24" cy="19" r="7" fill="url(#50wh1SoqJZDjVsT9NX8XQc_kPENNmiEJv3b_gr3)"></circle><circle cx="24" cy="19" r="5" fill="#fad500"></circle>
-</svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        x="0px"
+                        y="0px"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 48 48"
+                      >
+                        <path
+                          fill="none"
+                          stroke="#c48c00"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-miterlimit="10"
+                          stroke-width="2"
+                          d="M32,28	c2.271-3.243,11-4.572,11-10c0-2.209-1.791-4-4-4s-4,1.791-4,4"
+                        ></path>
+                        <path
+                          fill="none"
+                          stroke="#c48c00"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-miterlimit="10"
+                          stroke-width="2"
+                          d="M16,28	c-2.271-3.243-11-4.572-11-10c0-2.209,1.791-4,4-4s4,1.791,4,4"
+                        ></path>
+                        <path
+                          fill="#edbe00"
+                          d="M31.1,39.8l-1.5-2C29.222,37.296,28.63,37,28,37h-8c-0.63,0-1.222,0.296-1.6,0.8l-1.5,2	c-0.567,0.755-1.456,1.2-2.4,1.2h19C32.556,41,31.667,40.555,31.1,39.8z"
+                        ></path>
+                        <path
+                          fill="#edbe00"
+                          d="M7,7c6,8,1,23,13,28h8c12-4,7-20,13-28H7z"
+                        ></path>
+                        <linearGradient
+                          id="50wh1SoqJZDjVsT9NX8XQa_kPENNmiEJv3b_gr1"
+                          x1="13"
+                          x2="35"
+                          y1="42"
+                          y2="42"
+                          gradientUnits="userSpaceOnUse"
+                        >
+                          <stop offset="0" stop-color="#fede00"></stop>
+                          <stop offset="1" stop-color="#ffd000"></stop>
+                        </linearGradient>
+                        <path
+                          fill="url(#50wh1SoqJZDjVsT9NX8XQa_kPENNmiEJv3b_gr1)"
+                          d="M34,41H14c-0.552,0-1,0.448-1,1c0,0.552,0.448,1,1,1h20c0.552,0,1-0.448,1-1	C35,41.448,34.552,41,34,41z"
+                        ></path>
+                        <linearGradient
+                          id="50wh1SoqJZDjVsT9NX8XQb_kPENNmiEJv3b_gr2"
+                          x1="5"
+                          x2="43"
+                          y1="6"
+                          y2="6"
+                          gradientUnits="userSpaceOnUse"
+                        >
+                          <stop offset="0" stop-color="#fede00"></stop>
+                          <stop offset="1" stop-color="#ffd000"></stop>
+                        </linearGradient>
+                        <path
+                          fill="url(#50wh1SoqJZDjVsT9NX8XQb_kPENNmiEJv3b_gr2)"
+                          d="M42,5H6C5.448,5,5,5.448,5,6c0,0.552,0.448,1,1,1h36c0.552,0,1-0.448,1-1	C43,5.448,42.552,5,42,5z"
+                        ></path>
+                        <rect width="8" height="2" x="20" y="35" fill="#e3a600"></rect>
+                        <radialGradient
+                          id="50wh1SoqJZDjVsT9NX8XQc_kPENNmiEJv3b_gr3"
+                          cx="24"
+                          cy="19"
+                          r="7"
+                          gradientUnits="userSpaceOnUse"
+                        >
+                          <stop offset="0" stop-color="#1c1600"></stop>
+                          <stop offset=".07" stop-color="#3b2f00"></stop>
+                          <stop offset=".19" stop-color="#6a5500"></stop>
+                          <stop offset=".313" stop-color="#927500"></stop>
+                          <stop offset=".439" stop-color="#b39000"></stop>
+                          <stop offset=".568" stop-color="#cda400"></stop>
+                          <stop offset=".701" stop-color="#dfb300"></stop>
+                          <stop offset=".841" stop-color="#eabb00"></stop>
+                          <stop offset="1" stop-color="#edbe00"></stop>
+                        </radialGradient>
+                        <circle
+                          cx="24"
+                          cy="19"
+                          r="7"
+                          fill="url(#50wh1SoqJZDjVsT9NX8XQc_kPENNmiEJv3b_gr3)"
+                        ></circle>
+                        <circle cx="24" cy="19" r="5" fill="#fad500"></circle>
+                      </svg>
                       Tabla de Posiciones
                     </a>
 

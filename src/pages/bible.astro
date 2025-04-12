@@ -1,0 +1,186 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Footer from "@components/partials/Footer.astro";
+import Header from "@components/partials/Header.astro";
+
+const bibleCategories = [
+  {
+    category: "Pentateuco",
+    color: "bg-gray-100",
+    books: [
+      { id: 1, name: "Génesis" },
+      { id: 2, name: "Éxodo" },
+      { id: 3, name: "Levítico" },
+      { id: 4, name: "Números" },
+      { id: 5, name: "Deuteronomio" },
+    ],
+  },
+  {
+    category: "Históricos",
+    color: "bg-green-100",
+    books: [
+      { id: 6, name: "Josué" },
+      { id: 7, name: "Jueces" },
+      { id: 8, name: "Rut" },
+      { id: 9, name: "1 Samuel" },
+      { id: 10, name: "2 Samuel" },
+      { id: 11, name: "1 Reyes" },
+      { id: 12, name: "2 Reyes" },
+      { id: 13, name: "1 Crónicas" },
+      { id: 14, name: "2 Crónicas" },
+      { id: 15, name: "Esdras" },
+      { id: 16, name: "Nehemías" },
+      { id: 17, name: "Ester" },
+    ],
+  },
+  {
+    category: "Poéticos/Sapienciales",
+    color: "bg-yellow-100/50",
+    books: [
+      { id: 18, name: "Job" },
+      { id: 19, name: "Salmos" },
+      { id: 20, name: "Proverbios" },
+      { id: 21, name: "Eclesiastés" },
+      { id: 22, name: "Cantares" },
+    ],
+  },
+  {
+    category: "Profetas Mayores",
+    color: "bg-red-200",
+    books: [
+      { id: 23, name: "Isaías" },
+      { id: 24, name: "Jeremías" },
+      { id: 25, name: "Lamentaciones" },
+      { id: 26, name: "Ezequiel" },
+      { id: 27, name: "Daniel" },
+    ],
+  },
+  {
+    category: "Profetas Menores",
+    color: "bg-purple-100/50",
+    books: [
+      { id: 28, name: "Oseas" },
+      { id: 29, name: "Joel" },
+      { id: 30, name: "Amós" },
+      { id: 31, name: "Abdías" },
+      { id: 32, name: "Jonás" },
+      { id: 33, name: "Miqueas" },
+      { id: 34, name: "Nahúm" },
+      { id: 35, name: "Habacuc" },
+      { id: 36, name: "Sofonías" },
+      { id: 37, name: "Hageo" },
+      { id: 38, name: "Zacarías" },
+      { id: 39, name: "Malaquías" },
+    ],
+  },
+  {
+    category: "Evangelio",
+    color: "bg-zinc-200",
+    books: [
+      { id: 40, name: "Mateo" },
+      { id: 41, name: "Marcos" },
+      { id: 42, name: "Lucas" },
+      { id: 43, name: "Juan" },
+    ],
+  },
+  {
+    category: "Histórico",
+    color: "bg-white",
+    books: [{ id: 44, name: "Hechos" }],
+  },
+  {
+    category: "Cartas Paulinas",
+    color: "bg-emerald-200",
+    books: [
+      { id: 45, name: "Romanos" },
+      { id: 46, name: "1 Corintios" },
+      { id: 47, name: "2 Corintios" },
+      { id: 48, name: "Gálatas" },
+      { id: 49, name: "Efesios" },
+      { id: 50, name: "Filipenses" },
+      { id: 51, name: "Colosenses" },
+      { id: 52, name: "1 Tesalonicenses" },
+      { id: 53, name: "2 Tesalonicenses" },
+      { id: 54, name: "1 Timoteo" },
+      { id: 55, name: "2 Timoteo" },
+      { id: 56, name: "Tito" },
+      { id: 57, name: "Filemón" },
+    ],
+  },
+  {
+    category: "Cartas Universales",
+    color: "bg-sky-100/80",
+    books: [
+      { id: 58, name: "Hebreos" },
+      { id: 59, name: "Santiago" },
+      { id: 60, name: "1 Pedro" },
+      { id: 61, name: "2 Pedro" },
+      { id: 62, name: "1 Juan" },
+      { id: 63, name: "2 Juan" },
+      { id: 64, name: "3 Juan" },
+      { id: 65, name: "Judas" },
+    ],
+  },
+  {
+    category: "Profético",
+    color: "bg-gray-100",
+    books: [{ id: 66, name: "Apocalipsis" }],
+  },
+];
+---
+
+<Layout>
+  <div class="container">
+    <Header />
+    <main>
+      <div class="flex justify-center">
+        <lottie-player
+          src="/reading-bible-closed.json"
+          background="transparent"
+          speed="1"
+          class="w-24 md:w-32 xl:w-32"
+          loop
+          autoplay></lottie-player>
+      </div>
+      <h1 class="text-4xl md:text-6xl font-bold text-center mb-3">
+        Libros de la Biblia
+      </h1>
+      <p class="text-2xl text-center mb-6 lg:mb-20">
+        Explora la Biblia clasificada por categorías
+      </p>
+
+      <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center border-y-2 py-4">
+        Antiguo Testamento
+      </h2>
+      {
+        bibleCategories.map((cat) => (
+          <section class="mb-12">
+            {cat.category === "Evangelio" && (
+              <div class="mt-6">
+                <h2 class="text-5xl font-semibold mb-6 text-center border-y-2 py-4 mt-8">
+                  Nuevo Testamento
+                </h2>
+              </div>
+            )}
+            <h2 class="text-3xl md:text-4xl font-semibold mb-6">{cat.category}</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {cat.books.map((book) => (
+                <div
+                  class={`p-4 rounded border-2 border-black shadow text-center relative ${cat.color}`}
+                >
+                  <h3 class="text-xl font-bold">
+                    <span class="text-white text-sm bg-black rounded-full absolute -top-2 -left-2 px-2">
+                      {book.id}
+                    </span>
+                    {book.name}
+                  </h3>
+                </div>
+              ))}
+            </div>
+          </section>
+        ))
+      }
+    </main>
+  </div>
+  <Footer />
+</Layout>

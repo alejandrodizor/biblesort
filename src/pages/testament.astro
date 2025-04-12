@@ -1,0 +1,37 @@
+---
+import Footer from "@components/partials/Footer.astro";
+import Header from "@components/partials/Header.astro";
+import Layout from "@layouts/Layout.astro";
+---
+
+<Layout>
+    <div class="container">
+      <Header />
+    <main>
+      <div class="flex justify-center">
+        <lottie-player
+          src="/hands.json"
+          background="transparent"
+          speed="1"
+          class="w-32 md:w-56 lg:w-56"
+          loop
+          autoplay />
+      </div>
+      <h1
+        class="text-5xl sm:text-6xl md:text-7xl lg:text-6xl tracking-tighter text-balance text-center"
+      >
+        Modo de Juego
+      </h1>
+
+      <p class="text-xl md:text-2xl lg:text-3xl text-center mt-4">
+        Elige cuál de los dos testamentos quieres ordenar
+      </p>
+
+      <div class="flex justify-center gap-4 mt-8">
+        <a class="text-xl md:text-2xl bg-black hover:opacity-80 duration-200 pt-1 md:py-3 pb-2 md:pb-4 px-10 md:px-20 text-white" href="/game-ot">Antiguo Testamento</a>
+        <a class="text-xl md:text-2xl bg-black hover:opacity-80 duration-200 pt-1 md:py-3 pb-2 md:pb-4 px-10 md:px-20 text-white" href="/game-nt">Nuevo Testamento</a>
+      </div>
+    </main>
+  </div>
+  <Footer />
+</Layout>
