@@ -17,6 +17,10 @@ export default defineConfig({
         'react-dom/server': 'react-dom/server.edge',
       },
     },
+    define: {
+      'process.env.UPSTASH_REDIS_REST_URL': JSON.stringify(process.env.UPSTASH_REDIS_REST_URL),
+      'process.env.UPSTASH_REDIS_REST_TOKEN': JSON.stringify(process.env.UPSTASH_REDIS_REST_TOKEN)
+    }
   },
   output: 'static',
 
