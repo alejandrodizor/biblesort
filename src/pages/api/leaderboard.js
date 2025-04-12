@@ -1,3 +1,4 @@
+export const prerender = false;
 import { db } from "../../db/db.js";
 
 const COMPOSITE_FACTOR = 100000;
