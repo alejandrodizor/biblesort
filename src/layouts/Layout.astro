@@ -1,31 +1,52 @@
 ---
-import '@fontsource-variable/eb-garamond';
+import "@fontsource-variable/eb-garamond";
 import "../styles/global.css";
 ---
+
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<title>Bible Sort | Ordena la Biblia</title>
-		<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-		<meta property="og:image" content="/thumbnail.png" />
-		<meta name="description" content="BibleSort es un juego interactivo para aprender y memorizar el orden de los libros de la Biblia, desde Génesis hasta Apocalipsis. ¡Aprende jugando!">
-	</head>
-	<body class="bg-neutral-300 min-h-screen px-4">
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Bible Sort | Ordena la Biblia</title>
+    <script
+      src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"
+    ></script>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="BibleSort | Ordena la Biblia" />
+    <meta
+      property="og:description"
+      content="BibleSort es un juego interactivo para aprender y memorizar el orden de los libros de la Biblia, desde Génesis hasta Apocalipsis. ¡Aprende jugando!"
+    />
+    <meta property="og:image" content="/thumbnail.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://biblesort.com" />
+    <!-- actualiza con tu dominio -->
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="BibleSort | Ordena la Biblia" />
+    <meta
+      name="twitter:description"
+      content="BibleSort es un juego interactivo para aprender y memorizar el orden de los libros de la Biblia, desde Génesis hasta Apocalipsis. ¡Aprende jugando!"
+    />
+    <meta name="twitter:image" content="/thumbnail.png" />
+  </head>
+  <body class="bg-neutral-300 min-h-screen px-4">
+    <slot />
+  </body>
 </html>
 
 <style is:global>
-	html,
-	body {
-		font-family: 'EB Garamond Variable', serif;
-		letter-spacing: -0.03em
-	}
-	.container {
-		@apply mx-auto;
-		@apply max-w-[1200px];
-	}
+  html,
+  body {
+    font-family: "EB Garamond Variable", serif;
+    letter-spacing: -0.03em;
+  }
+  .container {
+    @apply mx-auto;
+    @apply max-w-[1200px];
+  }
 </style>
