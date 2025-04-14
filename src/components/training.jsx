@@ -385,7 +385,7 @@ export function BibleOrderGame({ testament = "ot" }) {
                 {!showNameInput && (
                   <div className="mt-4">
                     <a
-                      href={"/game-" + (isOT ? "ot" : "nt")}
+                      href={"/game-" + testament}
                       className="mt-4 text-xl border-2 border-black flex gap-2 items-center justify-center w-full py-2 rounded-md text-black bg-amber-400/30 hover:opacity-80 duration-200 focus:outline-none focus:ring-2 focus:ring-black"
                     >
                       <svg
